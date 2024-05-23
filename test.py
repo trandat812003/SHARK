@@ -1,4 +1,4 @@
-import torch, sys, os, datetime, warnings, fitlog, argparse, json, random
+import torch, sys, os, datetime, warnings, argparse, json, random
 sys.path.append('../')
 if 'p' in os.environ:
     os.environ['CUDA_VISIBLE_DEVICES'] = os.environ['p']
@@ -36,7 +36,6 @@ def run():
     log_dir = './logs'
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
-    fitlog.set_log_dir(log_dir, new_log=True)
 
     print_time()
     
@@ -49,7 +48,7 @@ def run():
         random.seed(args.seed)
         torch.backends.cudnn.deterministic = True
 
-    fitlog.add_hyper(args)
+    print(args)
 
 
     cache_fn = f"caches/data_{args.bart_name}_{args.dataset_name}.pt"
