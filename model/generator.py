@@ -44,10 +44,26 @@ class TransformerUnit(nn.Module):
 
 
 class SequenceGeneratorModel(nn.Module):
-    def __init__(self, seq2seq_model: Seq2SeqModel, use_CSK, add_ERC, use_gate, fuse_type, use_retrieval_CSK, use_generated_CSK, bos_token_id, eos_token_id=None, max_length=30, max_len_a=0.0,
-                 num_beams=1, do_sample=True,
-                 repetition_penalty=1, length_penalty=1.0, pad_token_id=0,
-                 restricter=None):
+    def __init__(
+        self,
+        seq2seq_model: Seq2SeqModel,
+        use_CSK,
+        add_ERC,
+        use_gate,
+        fuse_type,
+        use_retrieval_CSK,
+        use_generated_CSK,
+        bos_token_id,
+        eos_token_id=None,
+        max_length=30,
+        max_len_a=0.0,
+        num_beams=1,
+        do_sample=True,
+        repetition_penalty=1,
+        length_penalty=1.0,
+        pad_token_id=0,
+        restricter=None
+    ):
         """
         :param Seq2SeqModel seq2seq_model: 序列到序列模型. 会使用seq2seq_model的decoder进行生成
         :param int,None bos_token_id: 句子开头的token id
@@ -98,7 +114,30 @@ class SequenceGeneratorModel(nn.Module):
         self.add_ERC = add_ERC
 
 
-    def forward(self, src_tokens, src_tokens_xReact, src_seq_len_xReact, src_tokens_oReact, src_seq_len_oReact, utt_xReact_mask, utt_oReact_mask, utt_prefix_ids_xReact, utt_prefix_ids_oReact, src_tokens_xReact_retrieval, src_seq_len_xReact_retrieval, src_tokens_oReact_retrieval, src_seq_len_oReact_retrieval, utt_prefix_ids_xReact_retrieval, utt_prefix_ids_oReact_retrieval, tgt_tokens, utt_prefix_ids, dia_utt_num, src_seq_len=None, tgt_seq_len=None, first=None):
+    def forward(
+        self,
+        src_tokens,
+        src_tokens_xReact,
+        src_seq_len_xReact,
+        src_tokens_oReact,
+        src_seq_len_oReact,
+        utt_xReact_mask,
+        utt_oReact_mask,
+        utt_prefix_ids_xReact,
+        utt_prefix_ids_oReact,
+        src_tokens_xReact_retrieval,
+        src_seq_len_xReact_retrieval,
+        src_tokens_oReact_retrieval,
+        src_seq_len_oReact_retrieval,
+        utt_prefix_ids_xReact_retrieval,
+        utt_prefix_ids_oReact_retrieval,
+        tgt_tokens,
+        utt_prefix_ids,
+        dia_utt_num,
+        src_seq_len=None,
+        tgt_seq_len=None,
+        first=None
+    ):
         """
         :param torch.LongTensor src_tokens: bsz x max_len
         :param torch.LongTensor tgt_tokens: bsz x max_len'
@@ -106,10 +145,65 @@ class SequenceGeneratorModel(nn.Module):
         :param torch.LongTensor tgt_seq_len: bsz
         :return:
         """
-        return self.seq2seq_model(src_tokens, src_tokens_xReact, src_seq_len_xReact, src_tokens_oReact, src_seq_len_oReact, utt_xReact_mask, utt_oReact_mask, utt_prefix_ids_xReact, utt_prefix_ids_oReact, src_tokens_xReact_retrieval, src_seq_len_xReact_retrieval, src_tokens_oReact_retrieval, src_seq_len_oReact_retrieval, utt_prefix_ids_xReact_retrieval, utt_prefix_ids_oReact_retrieval, self.gat, self.graph_att_layer, self.use_CSK, self.add_ERC, self.use_gate, self.fuse_type, self.use_retrieval_CSK, self.use_generated_CSK, self.linear_layer, self.linear_layer1, tgt_tokens, utt_prefix_ids, dia_utt_num, self.transformer_unit, self.emo_ffn, src_seq_len, tgt_seq_len, first)
+        return self.seq2seq_model(
+            src_tokens,
+            src_tokens_xReact,
+            src_seq_len_xReact,
+            src_tokens_oReact,
+            src_seq_len_oReact,
+            utt_xReact_mask,
+            utt_oReact_mask,
+            utt_prefix_ids_xReact,
+            utt_prefix_ids_oReact,
+            src_tokens_xReact_retrieval,
+            src_seq_len_xReact_retrieval,
+            src_tokens_oReact_retrieval,
+            src_seq_len_oReact_retrieval,
+            utt_prefix_ids_xReact_retrieval,
+            utt_prefix_ids_oReact_retrieval,
+            self.gat,
+            self.graph_att_layer,
+            self.use_CSK,
+            self.add_ERC,
+            self.use_gate,
+            self.fuse_type,
+            self.use_retrieval_CSK,
+            self.use_generated_CSK,
+            self.linear_layer,
+            self.linear_layer1,
+            tgt_tokens,
+            utt_prefix_ids,
+            dia_utt_num,
+            self.transformer_unit,
+            self.emo_ffn,
+            src_seq_len,
+            tgt_seq_len,
+            first
+        )
 
 
-    def predict(self, src_tokens, src_tokens_xReact, src_seq_len_xReact, src_tokens_oReact, src_seq_len_oReact, utt_xReact_mask, utt_oReact_mask, utt_prefix_ids_xReact, utt_prefix_ids_oReact, src_tokens_xReact_retrieval, src_seq_len_xReact_retrieval, src_tokens_oReact_retrieval, src_seq_len_oReact_retrieval, utt_prefix_ids_xReact_retrieval, utt_prefix_ids_oReact_retrieval, utt_prefix_ids, dia_utt_num, src_seq_len=None, first=None):
+    def predict(
+        self,
+        src_tokens,
+        src_tokens_xReact,
+        src_seq_len_xReact,
+        src_tokens_oReact,
+        src_seq_len_oReact,
+        utt_xReact_mask,
+        utt_oReact_mask,
+        utt_prefix_ids_xReact,
+        utt_prefix_ids_oReact,
+        src_tokens_xReact_retrieval,
+        src_seq_len_xReact_retrieval,
+        src_tokens_oReact_retrieval,
+        src_seq_len_oReact_retrieval,
+        utt_prefix_ids_xReact_retrieval,
+        utt_prefix_ids_oReact_retrieval,
+        utt_prefix_ids,
+        dia_utt_num,
+        src_seq_len=None,
+        first=None
+    ):
         """
         Given the source, output the generated content.
 
@@ -117,7 +211,39 @@ class SequenceGeneratorModel(nn.Module):
         :param torch.LongTensor src_seq_len: bsz
         :return:
         """
-        state, emotion_pred_output = self.seq2seq_model.prepare_state(src_tokens, src_tokens_xReact, src_seq_len_xReact, src_tokens_oReact, src_seq_len_oReact, utt_xReact_mask, utt_oReact_mask, utt_prefix_ids_xReact, utt_prefix_ids_oReact, src_tokens_xReact_retrieval, src_seq_len_xReact_retrieval, src_tokens_oReact_retrieval, src_seq_len_oReact_retrieval, utt_prefix_ids_xReact_retrieval, utt_prefix_ids_oReact_retrieval, self.gat, self.graph_att_layer, self.use_CSK, self.add_ERC, self.use_gate, self.fuse_type, self.use_retrieval_CSK, self.use_generated_CSK, self.linear_layer, self.linear_layer1, utt_prefix_ids, dia_utt_num, self.transformer_unit, self.emo_ffn, src_seq_len, first)
+        state, emotion_pred_output = self.seq2seq_model.prepare_state(
+            src_tokens,
+            src_tokens_xReact,
+            src_seq_len_xReact,
+            src_tokens_oReact,
+            src_seq_len_oReact,
+            utt_xReact_mask,
+            utt_oReact_mask,
+            utt_prefix_ids_xReact,
+            utt_prefix_ids_oReact,
+            src_tokens_xReact_retrieval,
+            src_seq_len_xReact_retrieval,
+            src_tokens_oReact_retrieval,
+            src_seq_len_oReact_retrieval,
+            utt_prefix_ids_xReact_retrieval,
+            utt_prefix_ids_oReact_retrieval,
+            self.gat,
+            self.graph_att_layer,
+            self.use_CSK,
+            self.add_ERC,
+            self.use_gate,
+            self.fuse_type,
+            self.use_retrieval_CSK,
+            self.use_generated_CSK,
+            self.linear_layer,
+            self.linear_layer1,
+            utt_prefix_ids,
+            dia_utt_num,
+            self.transformer_unit,
+            self.emo_ffn,
+            src_seq_len,
+            first
+        )
         
         result = {}
         if self.add_ERC:
