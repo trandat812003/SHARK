@@ -23,4 +23,4 @@ jobs:
             -e IC_CODE_BASE_URL="${{ secrets.IC_CODE_BASE_URL }}" \
             -e GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}" \
             codingassistant/github_pr_agent:github \
-            python /github/workspace/pr_agent/cli.py
+            python ./pr_agent/cli.py
