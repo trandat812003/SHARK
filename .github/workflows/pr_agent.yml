@@ -3,18 +3,19 @@ on:
     types: [opened, reopened, ready_for_review]
   issue_comment:
 jobs:
-  run_pr_agent:
+  pr_agent_job:
+    if: ${{ github.event.sender.type != 'Bot' }}
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    name: Run pr agent on every pull request, respond to user comments
     steps:
-      - name: Checkout your repo
-        uses: actions/checkout@v4
-
-      - name: Run PR Agent CLI
-        run: |
-          docker run --rm \
-            -v "$PWD":/github/workspace \
-            -e IC_CODE_KEY="${{ secrets.API_KEY }}" \
-            -e IC_CODE_BASE_URL="${{ secrets.BASE_URL }}" \
-            -e GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}" \
-            codingassistant/github_pr_agent:latest \
-            python /github/workspace/pr_agent/cli.py
+      - name: PR Agent action step
+        id: pragent
+        uses: chungocchien/github_pr_agent@main
+        env:
+          IC_CODE_KEY: ${{ secrets.API_KEY }}
+          IC_CODE_BASE_URL: ${{ secrets.BASE_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
