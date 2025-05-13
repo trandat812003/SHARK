@@ -21,6 +21,6 @@ jobs:
             -v "$PWD":/github/workspace \
             -e IC_CODE_KEY="${{ secrets.IC_CODE_KEY }}" \
             -e IC_CODE_BASE_URL="${{ secrets.IC_CODE_BASE_URL }}" \
-            -e GITHUB_USER_TOKEN="${{ secrets.GITHUB_TOKEN }}" \
+            -e USER_TOKEN="${{ secrets.GITHUB_TOKEN }}" \
             codingassistant/github_pr_agent:github \
             python ./pr_agent/cli.py --pr_url="${{ github.event.pull_request.html_url }}" review
